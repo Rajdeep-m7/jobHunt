@@ -1,26 +1,17 @@
-import DetailSection from "./components/DetailSection"
-import Footer from "./components/Footer"
-import Header from "./components/Header"
-import Hero from "./components/Hero"
-import JobsByLocation from "./components/JobsByLocation"
-import Oppotunities from "./components/Oppotunities"
-import SponserBanners from "./components/SponserBanners"
-import Steps from "./components/Steps"
-
+import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router"
+import Home from "./pages/Home"
+import AuthForm from "./pages/AuthForm"
 const App = () => {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<AuthForm />} />
+      </Route>
+    )
+  )
   return (
-    <div>
-      <Header />
-      <Hero />
-      <div className="bg-gray-100">
-        <SponserBanners />
-        <DetailSection />
-        <Oppotunities />
-        <Steps />
-        <JobsByLocation />
-      </div>
-      <Footer />
-    </div>
+     <RouterProvider router={router} />
   )
 }
 
