@@ -1,4 +1,5 @@
 import { useState } from "react";
+import api from "../config/axios";
 
 const JobForm = () => {
   const [formData, setFormData] = useState({
@@ -20,29 +21,49 @@ const JobForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const payload = {
-      ...formData,
-      salary: Number(formData.salary),
+    try {
+      const payload = {
+        ...formData,
+        salary: Number(formData.salary),
 
-      skills: formData.skills
-        .split(",")
-        .map((skill) => skill.trim())
-        .filter(Boolean),
-    };
+        skills: formData.skills
+          .split(",")
+          .map((skill) => skill.trim())
+          .filter(Boolean),
+      };
 
-    console.log(payload);
+      const res = await api.post("/job/addjob", payload);
+
+      console.log(res.data);
+      alert("new job created successful");
+
+      setFormData({
+        companyName: "",
+        designation: "",
+        salary: "",
+        jobType: "",
+        category: "",
+        location: "",
+        bannerImage: "",
+        skills: "",
+        description: "",
+      });
+    } catch (error) {
+      console.log(error.response?.data || error.message);
+      alert(error.message)
+    }
   };
 
   const categories = [
-  "Management",
-  "Marketing & Sale",
-  "Design",
-  "Retail and Product",
-  "Development",
-];
+    "Management",
+    "Marketing & Sale",
+    "Design",
+    "Retail and Product",
+    "Development",
+  ];
 
   return (
     <div className="w-full min-h-screen bg-gray-100 flex justify-center items-center p-6">

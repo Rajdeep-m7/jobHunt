@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors"
 import connectDb from "./config/db.js";
 import authRouter from "./routes/Auth.route.js";
+import jobRouter from "./routes/job.route.js";
 dotenv.config();
 
 const app = express();
@@ -20,6 +21,7 @@ await connectDb();
 const PORT = process.env.PORT;
 
 app.use("/api/auth", authRouter);
+app.use("/api/job/",jobRouter);
 
 app.get("/",(req,res)=>{
     res.send("hello from JobHunt")

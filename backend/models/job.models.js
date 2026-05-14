@@ -2,6 +2,12 @@ import mongoose from "mongoose";
 
 const jobSchema = new mongoose.Schema(
     {
+    recruiter: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
     companyName: {
         type: String,
         required: true,
@@ -47,6 +53,12 @@ const jobSchema = new mongoose.Schema(
         type: String,
         required: true,
     },
+
+    status:{
+        type: String,
+        enum: ["active", "pause"],
+        required: true,
+    }
     },{
         timestamps:true,
     }
