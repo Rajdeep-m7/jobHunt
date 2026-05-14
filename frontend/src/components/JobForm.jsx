@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../config/axios";
+import { Link } from "react-router";
 
 const JobForm = () => {
   const [formData, setFormData] = useState({
@@ -229,12 +230,11 @@ const JobForm = () => {
               Submit
             </button>
 
-            <button
-              type="button"
+            <Link to = "/recruiter/home"
               className="border border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-md"
             >
               Cancel
-            </button>
+            </Link>
           </div>
         </form>
       </div>

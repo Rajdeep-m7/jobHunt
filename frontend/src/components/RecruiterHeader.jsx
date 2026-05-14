@@ -89,6 +89,12 @@ const RecruiterHeader = () => {
             >
               Job Applications
             </NavLink>
+            <NavLink
+              to="/recruiter/job"
+              className={({ isActive }) => (isActive ? "text-blue-600" : "")}
+            >
+              Add job
+            </NavLink>
           </ul>
 
           <button

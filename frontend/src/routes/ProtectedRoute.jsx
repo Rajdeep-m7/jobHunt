@@ -5,7 +5,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, loading, isAuthenticated } = useAuth();
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <h1 className="text-center text-xl my-auto">Loading...</h1>;
   }
 
   if (!isAuthenticated) {
