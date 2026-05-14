@@ -5,7 +5,7 @@ import { RxCross1 } from "react-icons/rx";
 import api from "../config/axios";
 import { NavLink, useNavigate } from "react-router";
 
-const Header = () => {
+const RecruiterHeader = () => {
   const [open, setOpen] = useState(false);
   const toggleButton = () => {
     setOpen(!open);
@@ -27,26 +27,24 @@ const Header = () => {
         <div className="hidden md:block">
           <ul className="flex justify-between gap-5 items-center text-gray-700">
             <NavLink
-              to="/user"
-              className={({ isActive }) =>
-                isActive ? "text-blue-600 font-semibold" : ""
-              }
+              to="/recruiter/home"
+              className={({ isActive }) => (isActive ? "text-blue-600" : "")}
             >
-              Home
+              Job Management
             </NavLink>
 
             <NavLink
-              to="/user/jobs"
-              className={({ isActive }) =>
-                isActive ? "text-blue-600 font-semibold" : ""
-              }
+              to="/recruiter/applications"
+              className={({ isActive }) => (isActive ? "text-blue-600" : "")}
             >
-              Find Jobs
+              Job Applications
             </NavLink>
-            <li>About Us</li>
-            <li>Why Us</li>
-            <li>Media</li>
-            <li>Contact Us</li>
+            <NavLink
+              to="/recruiter/job"
+              className={({ isActive }) => (isActive ? "text-blue-600" : "")}
+            >
+              Add job
+            </NavLink>
           </ul>
         </div>
         <div className="hidden md:block">
@@ -79,26 +77,18 @@ const Header = () => {
         <div className="flex flex-col gap-5 justify-between items-center">
           <ul className="flex flex-col justify-between gap-5 items-center text-gray-700">
             <NavLink
-              to="/user"
-              className={({ isActive }) =>
-                isActive ? "text-blue-600 font-semibold" : ""
-              }
+              to="/recruiter/home"
+              className={({ isActive }) => (isActive ? "text-blue-600" : "")}
             >
-              Home
+              Job Management
             </NavLink>
 
             <NavLink
-              to="/user/jobs"
-              className={({ isActive }) =>
-                isActive ? "text-blue-600 font-semibold" : ""
-              }
+              to="/recruiter/applications"
+              className={({ isActive }) => (isActive ? "text-blue-600" : "")}
             >
-              Find Jobs
+              Job Applications
             </NavLink>
-            <li>About Us</li>
-            <li>Why Us</li>
-            <li>Media</li>
-            <li>Contact Us</li>
           </ul>
 
           <button
@@ -113,4 +103,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default RecruiterHeader;

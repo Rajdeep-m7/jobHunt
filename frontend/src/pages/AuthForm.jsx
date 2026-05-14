@@ -1,12 +1,77 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+
+import api from "../config/axios";
+import { useAuth } from "../context/AuthContext";
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
 
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  const { setUser } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      const formData = new FormData(e.target);
+
+      const data = Object.fromEntries(formData.entries());
+
+      let res;
+      if (isLogin) {
+        res = await api.post("/auth/login", {
+          email: data.email,
+          password: data.password,
+        });
+      }
+
+      else {
+        res = await api.post("/auth/signUp", {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          role: data.role,
+        });
+      }
+
+      console.log(res.data);
+
+      // save user in context
+      setUser(res.data.user);
+
+      // reset form
+      e.target.reset();
+
+      // redirect based on role
+      if (res.data.user.role === "recruiter") {
+        navigate("/recruiter");
+      } else {
+        navigate("/user");
+      }
+
+    } catch (error) {
+      console.log(error);
+
+      alert(
+        error?.response?.data?.message ||
+        "Something went wrong"
+      );
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-950 via-blue-900 to-blue-800 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-linear-to-br from-blue-500 via-blue-300 to-white flex items-center justify-center p-5">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
-        
+
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-blue-700">
             {isLogin ? "Welcome Back" : "Create Account"}
@@ -19,7 +84,10 @@ const AuthForm = () => {
           </p>
         </div>
 
-        <form className="space-y-5">
+        <form
+          className="space-y-5"
+          onSubmit={handleSubmit}
+        >
 
           {!isLogin && (
             <div>
@@ -29,6 +97,8 @@ const AuthForm = () => {
 
               <input
                 type="text"
+                name="name"
+                required
                 placeholder="Enter your full name"
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-blue-600"
               />
@@ -42,6 +112,8 @@ const AuthForm = () => {
 
             <input
               type="email"
+              name="email"
+              required
               placeholder="Enter your email"
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-blue-600"
             />
@@ -54,31 +126,44 @@ const AuthForm = () => {
 
             <input
               type="password"
+              name="password"
+              required
               placeholder="Enter your password"
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-blue-600"
             />
           </div>
 
           {!isLogin && (
-            <>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700">
-                  Role
-                </label>
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Role
+              </label>
 
-                <select className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-blue-600">
-                  <option value="user">Job Seeker</option>
-                  <option value="recruiter">Recruiter</option>
-                </select>
-              </div>
-            </>
+              <select
+                name="role"
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-blue-600"
+              >
+                <option value="user">
+                  Job Seeker
+                </option>
+
+                <option value="recruiter">
+                  Recruiter
+                </option>
+              </select>
+            </div>
           )}
 
           <button
             type="submit"
-            className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 rounded-lg transition duration-300"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-3 rounded-lg transition duration-300"
           >
-            {isLogin ? "Login" : "Create Account"}
+            {loading
+              ? "Please wait..."
+              : isLogin
+              ? "Login"
+              : "Create Account"}
           </button>
         </form>
 
@@ -89,6 +174,7 @@ const AuthForm = () => {
               : "Already have an account?"}
 
             <button
+              type="button"
               onClick={() => setIsLogin(!isLogin)}
               className="ml-2 text-blue-700 font-semibold hover:underline"
             >
@@ -99,6 +185,6 @@ const AuthForm = () => {
       </div>
     </div>
   );
-}
+};
 
-export default AuthForm
+export default AuthForm;
