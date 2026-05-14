@@ -12,7 +12,7 @@ const categories = [
   "Development",
 ];
 
-const Oppotunities = () => {
+const OpportunitiesLimit = () => {
   const [jobs, setJobs] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [loading, setLoading] = useState(false);
@@ -109,7 +109,7 @@ const Oppotunities = () => {
             No Jobs Found
           </p>
         ) : (
-          jobs.map((job) => (
+          jobs.slice(0,8).map((job) => (
             <JobCard
               key={job._id}
               job={job}
@@ -122,4 +122,4 @@ const Oppotunities = () => {
   );
 };
 
-export default Oppotunities;
+export default OpportunitiesLimit;

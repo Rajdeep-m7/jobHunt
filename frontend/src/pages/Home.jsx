@@ -3,7 +3,7 @@ import Footer from "../components/Footer"
 import Header from "../components/Header"
 import Hero from "../components/Hero"
 import JobsByLocation from "../components/JobsByLocation"
-import Oppotunities from "../components/Oppotunities"
+import OpportunitiesLimit from "../components/OpportunitiesLimit"
 import SponserBanners from "../components/SponserBanners"
 import Steps from "../components/Steps"
 
@@ -15,7 +15,7 @@ const Home = () => {
       <div className="bg-gray-100">
         <SponserBanners />
         <DetailSection />
-        <Oppotunities />
+        <OpportunitiesLimit />
         <Steps />
         <JobsByLocation />
       </div>

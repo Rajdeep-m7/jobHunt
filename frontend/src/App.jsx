@@ -14,6 +14,8 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
 import RecruiterHome from "./pages/RecruiterHome";
 import AddJobs from "./pages/AddJobs";
+import EditJob from "./components/EditJob";
+import Applications from "./pages/Applications";
 
 const RootRedirect = () => {
   const { user, loading, isAuthenticated } = useAuth();
@@ -27,7 +29,7 @@ const RootRedirect = () => {
   }
 
   if (user?.role === "recruiter") {
-    return <Navigate to="/recruiter" replace />;
+    return <Navigate to="/recruiter/home" replace />;
   }
 
   return <Navigate to="/user" replace />;
@@ -73,8 +75,24 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-      </Route>
-    )
+        <Route
+          path="/recruiter/edit/:id"
+          element={
+            <ProtectedRoute allowedRoles={["recruiter"]}>
+              <EditJob />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/recruiter/applications"
+          element={
+            <ProtectedRoute allowedRoles={["recruiter"]}>
+              <Applications />
+            </ProtectedRoute>
+          }
+        />
+      </Route>,
+    ),
   );
 
   return <RouterProvider router={router} />;

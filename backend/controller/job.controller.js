@@ -30,9 +30,27 @@ export const createJob = async(req , res)=>{
     }
 }
 
+export const getOneJob = async(req , res)=>{
+  const {id}= req.params;
+
+  try {
+    const job = await Job.findById(id);
+
+    return res.status(200).json({
+      job
+    })
+  } catch (error) {
+      return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+  });
+}
+
+}
+
 export const getAllJobs = async(req , res)=>{
     try {
-        const jobs = await Job.find();
+        const jobs = await Job.find({status:"active"});
 
         if(jobs.length == 0){
             return res.status(404).json({
@@ -57,13 +75,7 @@ export const getJobsBycategory = async(req , res)=>{
     const {category}= req.params;
 
     try {
-        const jobs = await Job.find({category});
-
-        if(jobs.length == 0){
-            return res.status(404).json({
-                message:"no job found"
-            })
-        }
+        const jobs = await Job.find({category , status:"active"});
 
         return res.status(200).json({
             success:true,

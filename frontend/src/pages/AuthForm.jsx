@@ -42,15 +42,12 @@ const AuthForm = () => {
 
       console.log(res.data);
 
-      // save user in context
       setUser(res.data.user);
 
-      // reset form
       e.target.reset();
 
-      // redirect based on role
       if (res.data.user.role === "recruiter") {
-        navigate("/recruiter");
+        navigate("/recruiter/home");
       } else {
         navigate("/user");
       }

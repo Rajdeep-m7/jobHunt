@@ -56,7 +56,7 @@ const jobSchema = new mongoose.Schema(
 
     status:{
         type: String,
-        enum: ["active", "pause"],
+        enum: ["active", "paused"],
         required: true,
     }
     },{

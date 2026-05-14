@@ -5,13 +5,14 @@ import cors from "cors"
 import connectDb from "./config/db.js";
 import authRouter from "./routes/Auth.route.js";
 import jobRouter from "./routes/job.route.js";
+import applicationRouter from "./routes/application.route.js";
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigin = ['http://localhost:5173'];
+const allowedOrigin = ['http://localhost:5173','https://jobhuntrebootai.onrender.com'];
 app.use(cors(
     {origin: allowedOrigin , credentials : true}
 ));
@@ -22,6 +23,7 @@ const PORT = process.env.PORT;
 
 app.use("/api/auth", authRouter);
 app.use("/api/job/",jobRouter);
+app.use("/api/application",applicationRouter);
 
 app.get("/",(req,res)=>{
     res.send("hello from JobHunt")
